@@ -1,0 +1,121 @@
+[gd_scene load_steps=6 format=3 uid="uid://51rtu48sbe2w"]
+
+[ext_resource type="Script" uid="uid://cgji88dtqhkeh" path="res://player/player.gd" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://cfw5h07vyhtxb" path="res://player/interact_ray.gd" id="2_g1dw6"]
+[ext_resource type="Script" uid="uid://x666821q771l" path="res://ui/cross_hair.gd" id="2_onrkg"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_onrkg"]
+height = 1.6
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i3pqv"]
+height = 1.6
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 2
+collision_mask = 11
+script = ExtResource("1_4flbx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("CapsuleMesh_onrkg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CapsuleShape3D_i3pqv")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+
+[node name="InteractRay" type="RayCast3D" parent="Head"]
+target_position = Vector3(0, 0, -2)
+collision_mask = 4
+script = ExtResource("2_g1dw6")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="CrossHair" type="CenterContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_onrkg")
+
+[node name="Top" type="Line2D" parent="UI/CrossHair"]
+points = PackedVector2Array(0, -5, 0, -15)
+width = 2.0
+
+[node name="Button" type="Line2D" parent="UI/CrossHair"]
+points = PackedVector2Array(0, 5, 0, 15)
+width = 2.0
+
+[node name="Left" type="Line2D" parent="UI/CrossHair"]
+points = PackedVector2Array(-5, 0, -15, 0)
+width = 2.0
+
+[node name="Right" type="Line2D" parent="UI/CrossHair"]
+points = PackedVector2Array(5, 0, 15, 0)
+width = 2.0
+
+[node name="AreaPrompt" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = 190.0
+offset_right = 161.0
+offset_bottom = 245.0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 40
+
+[node name="RayPrompt" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = 114.0
+offset_right = 161.0
+offset_bottom = 169.0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 40
+
+[node name="Speed" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -157.0
+offset_top = -134.0
+offset_right = -12.0
+offset_bottom = -79.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 40
+
+[connection signal="interacting" from="Head/InteractRay" to="." method="_on_interact_ray_interacting"]

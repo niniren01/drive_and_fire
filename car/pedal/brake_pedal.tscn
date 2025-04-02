@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0yakbogodtv"]
+
+[ext_resource type="Script" uid="uid://dha6l4sk5homo" path="res://car/pedal/brake_pedal.gd" id="1_dxvrk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v24ij"]
+albedo_color = Color(0.530819, 0.185806, 0.185157, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qtgjb"]
+size = Vector3(0.6, 0.02, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_juier"]
+size = Vector3(0.6, 1, 1)
+
+[node name="BrakePedal" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_dxvrk")
+action_name = "Brake"
+action_input = "E"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_v24ij")
+mesh = SubResource("BoxMesh_qtgjb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_juier")

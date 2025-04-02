@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://dtn7rwwtpdubd"]
+
+[ext_resource type="Script" uid="uid://dovruiwrh76w8" path="res://car/turn_control/turret_control.gd" id="1_mba6e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1o1nk"]
+albedo_color = Color(0.19, 0.19, 0.19, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mba6e"]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.05
+radial_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lpbn5"]
+albedo_color = Color(0.73, 0.165467, 0.146, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_co7gc"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.1
+radial_segments = 8
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_1o1nk"]
+height = 0.4
+radius = 0.2
+
+[node name="TurretControl" type="Node3D"]
+script = ExtResource("1_mba6e")
+action_name = "Turn"
+action_input = "LMB"
+
+[node name="Mesh" type="StaticBody3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh"]
+material_override = SubResource("StandardMaterial3D_1o1nk")
+mesh = SubResource("CylinderMesh_mba6e")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -0.14)
+material_override = SubResource("StandardMaterial3D_lpbn5")
+mesh = SubResource("CylinderMesh_co7gc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("CylinderShape3D_1o1nk")
